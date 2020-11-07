@@ -39,6 +39,10 @@ class SIM7020NB(SIM7020Modem):
         self.sendAT("E0")
         self.waitResponse()
 
+        # Request TA Revision Identification of Software Release. refer AT CMD 3.2.4
+        self.sendAT("+CGMR")
+        self.waitResponse()
+
         # Control the Data Output Format. refer AT CMD 5.2.18
         self.sendAT("+CREVHEX=0")
         return (self.waitResponse() == 1)

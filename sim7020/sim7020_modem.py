@@ -19,6 +19,22 @@ class SIM7020Modem:
         self._at = serial.Serial(port, baudrate, timeout=0.05)
         self._reset_pin = LED(reset_pin)
 
+    def atWrite(self, cmd):
+        # print(cmd, end="")
+        cmd = bytes(cmd, 'utf-8')
+        self._at.write(cmd)
+
+    def atRead(self, numChars=1):
+        try:
+            cmd = self._at.read(numChars).decode("utf-8")
+            # print(cmd, end="")
+            return cmd
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except:
+            print("decode error !")
+            return ""
+
     def restart(self):
         self._reset_pin.off()
         sleep(0.5)
@@ -38,24 +54,23 @@ class SIM7020Modem:
         cmd = ""
         for arg in args:
             cmd += str(arg)
-        cmd = bytes(cmd, 'utf-8')
-        self._at.write(cmd)
+        self.atWrite(cmd)
 
     def sendAT(self, *args):
         cmd = "AT"
         for arg in args:
             cmd += str(arg)
-        cmd = bytes(cmd + "\r\n", 'utf-8')
-        self._at.write(cmd)
+        cmd += "\r\n"
+        self.atWrite(cmd)
 
     def streamRead(self):
-        self._at.read()
+        self.atRead()
 
     def streamGetLength(self, numChars, timeout_s=1):
         startTime = time()
         data = ""
         while(time() - startTime < timeout_s):
-            data += self._at.read(numChars).decode("utf-8")
+            data += self.atRead(numChars)
             if(data != "" and len(data) == numChars):
                 return data
 
@@ -63,7 +78,7 @@ class SIM7020Modem:
         startTime = time()
         data = ""
         while(time() - startTime < timeout_s):
-            data += self._at.read().decode("utf-8")
+            data += self.atRead()
             if(data != "" and data.endswith(lastChar)):
                 return int(data[:-1])
         return -9999
@@ -72,7 +87,7 @@ class SIM7020Modem:
         startTime = time()
         data = ""
         while(time() - startTime < timeout_s):
-            data += self._at.read().decode("utf-8")
+            data += self.atRead()
             if(data != "" and data.endswith(lastChar)):
                 return data[:-1]
         return ""
@@ -80,7 +95,7 @@ class SIM7020Modem:
     def streamSkipUntil(self, c, timeout_s=1):
         startTime = time()
         while(time() - startTime < timeout_s):
-            ch = self._at.read().decode("utf-8")
+            ch = self.atRead()
             if(ch == c):
                 return True
         return False
@@ -89,12 +104,8 @@ class SIM7020Modem:
         index = 0
         startTime = time()
         data = ""
-        while(time()-startTime < timeout_s):
-            c = self._at.read().decode("utf-8")
-            data += c
-            # if(c):
-                # print(c, end="")
-
+        while(True):
+            data += self.atRead()
             if(r1 and data.endswith(r1)):
                 index = 1
                 break
@@ -110,7 +121,6 @@ class SIM7020Modem:
             elif(r5 and data.endswith(r5)):
                 index = 5
                 break
+            if(time()-startTime > timeout_s):
+                break
         return index
-
-    def ParseSubMsg():
-        pass
