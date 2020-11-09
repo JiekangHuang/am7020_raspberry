@@ -1,4 +1,4 @@
-# AM7020 Arduino 範例程式碼
+# AM7020 Raspberry Pi 範例程式碼
  [AM7020](https://atticedu.com/index.php/am7020.html) (SIMCOM SIM7020E) 窄頻物聯網(NBIoT)模組 Raspberry Pi 範例程式碼
  
   ![AM7020](images/am7020_front.jpg)
@@ -13,11 +13,11 @@
   待新增
 
 
-# AM7020 Arduino 
+# AM7020 Raspberry Pi 
  AM7020 (SIMCOM SIM7020E) NBIoT module example code for Raspberry Pi
  ![AM7020](images/am7020_front.jpg)
    
- ## Supported protocol for Arduino boards
+ ## Supported protocol for Raspberry Pi boards
  
  | Boards | HTTP | HTTPS | MQTT | MQTTS |
 | ------           | ------ | ------ |------ | ------ |
