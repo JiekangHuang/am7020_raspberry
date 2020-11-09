@@ -12,18 +12,13 @@ CONN_BROKER_TIMEOUT_MS = 90
 
 
 class SIM7020HTTP():
-    def __init__(self, nb, host, username=None, password=None):
+    def __init__(self, nb, host, username="", password=""):
         self.nb = nb
         self.host = host
         self.username = username
         self.password = password
         self.statusCode = 0
         self.body = ""
-
-        if(not self.username):
-            self.username = ""
-        if(not self.password):
-            self.password = ""
 
     def newHTTP(self):
         # Create a HTTP Client Instance. refer AT CMD 8.2.1
@@ -68,15 +63,10 @@ class SIM7020HTTP():
                        header, "\",\"", content_type, "\",\"", content_string, "\"")
         return (self.nb.waitResponse(10) == 1)
 
-    def startRequest(self, path, method, headers=None, content_type=None, body=None):
-        if(not content_type):
-            content_type = ""
-        if(not body):
-            body = ""
-
+    def startRequest(self, path, method, headers="", content_type="", body=""):
         if(self.connServer()):
             temp_header = self.makeHeader("Host", self.host)
-            if(headers):
+            if(headers != ""):
                 for header in headers:
                     temp_header += self.makeHeader(header, headers[header])
             self.sendHTTPData(method, path, self.stringToHex(
@@ -116,11 +106,11 @@ class SIM7020HTTP():
                 return True
         return False
 
-    def get(self, path, headers=None):
+    def get(self, path, headers=""):
         self.startRequest(path, 0, headers)
         return self.statusCode
 
-    def post(self, path, headers=None, content_type=None, body=None):
+    def post(self, path, headers="", content_type="", body=""):
         self.startRequest(path, 1, headers, content_type, body)
         return self.statusCode
 
