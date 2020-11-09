@@ -2,7 +2,6 @@
  [AM7020](https://atticedu.com/index.php/am7020.html) (SIMCOM SIM7020E) 窄頻物聯網(NBIoT)模組 Raspberry Pi 範例程式碼
  
   ![AM7020](images/am7020_front.jpg)
-  ![AM7020_PI](images/pi_am7020_front.jpg)
   ![AM7020_PI](images/pi_am7020_side.jpg)
  ## 啟用Raspberry Pi UART
  * Step1: Terminal input sudo raspi-config.
