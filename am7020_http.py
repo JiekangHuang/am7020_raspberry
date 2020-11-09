@@ -58,7 +58,7 @@ def main():
                       body="{\"value\": \"POST\"}")
             state_code = http.responseStatusCode()
             body = http.responseBody()
-            print("GET state code = ")
+            print("POST state code = ")
             print(state_code)
             print("body = ")
             print(body)
