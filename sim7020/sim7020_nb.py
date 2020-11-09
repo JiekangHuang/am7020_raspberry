@@ -10,8 +10,9 @@ from sim7020.sim7020_modem import SIM7020Modem
 
 
 class SIM7020NB(SIM7020Modem):
-    def __init__(self, port, baudrate, reset_pin):
-        super(SIM7020NB, self).__init__(port, baudrate, reset_pin)
+    def __init__(self, port, baudrate, reset_pin, dump_at_cmd=False):
+        super(SIM7020NB, self).__init__(
+            port, baudrate, reset_pin, dump_at_cmd)
 
     def setAPN(self, apn):
         # Set Default PSD Connection Settings. refer AT CMD 3.2.46

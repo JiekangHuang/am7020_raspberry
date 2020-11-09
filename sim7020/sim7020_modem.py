@@ -15,19 +15,22 @@ GSM_ERROR = "ERROR\r\n"
 
 
 class SIM7020Modem:
-    def __init__(self, port, baudrate, reset_pin):
+    def __init__(self, port, baudrate, reset_pin, dump_at_cmd=False):
         self._at = serial.Serial(port, baudrate, timeout=0.05)
         self._reset_pin = LED(reset_pin)
+        self.dump_at_cmd = dump_at_cmd
 
     def atWrite(self, cmd):
-        # print(cmd, end="")
+        if(self.dump_at_cmd):
+            print(cmd, end="")
         cmd = bytes(cmd, 'utf-8')
         self._at.write(cmd)
 
     def atRead(self, numChars=1):
         try:
             cmd = self._at.read(numChars).decode("utf-8")
-            # print(cmd, end="")
+            if(self.dump_at_cmd):
+                print(cmd, end="")
             return cmd
         except (KeyboardInterrupt, SystemExit):
             raise
