@@ -8,7 +8,7 @@
  * Step3: Select Serial.
  * Step4: Select "NO".
  * Step5: Select "YES".
- * Step4: Reboot Pi.
+ * Step6: Reboot Pi.
  
  ## MQTT 教學說明
  Declare nb and mqtt client instance using:
