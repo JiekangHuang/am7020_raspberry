@@ -92,7 +92,7 @@ class SIM7020MQTT():
     def publish(self, topic, msg, qos=0):
         # Send MQTT Publish Packet. refer AT CMD 11.2.6
         self.nb.sendAT("+CMQPUB=0,\"", topic, "\",", qos,
-                       ",0,0,", len(msg), ",\"", msg, "\"")
+                       ",0,0,", len(str(msg)), ",\"", str(msg), "\"")
         return (self.nb.waitResponse(10) == 1)
 
     def subscribe(self, topic, callback, qos=0):
