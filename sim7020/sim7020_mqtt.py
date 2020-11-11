@@ -36,9 +36,9 @@ class SIM7020MQTT():
             return (used_state == 1)
         return False
 
-    def connMQTT(self, mqtt_id, username, password):
+    def connMQTT(self, mqtt_id, username, password, cleansession):
         # Send MQTT Connection Packet. refer AT CMD 11.2.2
-        self.nb.sendAT("+CMQCON=0,4,\"", mqtt_id, "\",20000,0,0,\"",
+        self.nb.sendAT("+CMQCON=0,4,\"", mqtt_id, "\",20000,", int(cleansession), ",0,\"",
                        username, "\",\"", password, "\"")
         return (self.nb.waitResponse(30) == 1)
 
@@ -61,7 +61,7 @@ class SIM7020MQTT():
         self.nb.sendAT("+CMQTSYNC=", value)
         return (self.nb.waitResponse(2) == 1)
 
-    def connBroker(self, server, port=1883, username="", password="", mqtt_id=""):
+    def connBroker(self, server, port=1883, username="", password="", mqtt_id="", cleansession=True):
         # Note: 超過keepalive_interval時間會自動斷開。
         temp_mqtt_id = ""
         if(mqtt_id == ""):
@@ -80,7 +80,8 @@ class SIM7020MQTT():
                 continue
             else:
                 if(not self.chkMQTTChConn()):
-                    self.connMQTT(temp_mqtt_id, username, password)
+                    self.connMQTT(temp_mqtt_id, username,
+                                  password, cleansession)
                     continue
                 return True
         return False
