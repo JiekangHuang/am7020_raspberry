@@ -13,7 +13,7 @@ import setuptools
 
 setuptools.setup(
     name="am7020",
-    version="0.0.1",
+    version="0.0.2",
     author="Zack Huang",
     author_email="zack@atticedu.com",
     description="AT Command library dedicated to am7020 http mqtt",
