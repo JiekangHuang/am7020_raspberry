@@ -100,7 +100,7 @@ class SIM7020MQTT():
             # Send MQTT Subscribe Packet. refer AT CMD 11.2.4
             self.nb.sendAT("+CMQSUB=0,\"", topic, "\",", qos)
             self.nb.waitResponse(10)
-            temp_sub = {topic: callback}
+            temp_sub = (topic, callback)
             self.sub_list.append(temp_sub)
             # Note: 此library有開啟MQTT Synchronization Mode，只要訂閱數量未超過設定上限(NUM_OF_SUB)都將視為訂閱成功。
             return True
@@ -123,8 +123,7 @@ class SIM7020MQTT():
             if(self.nb.streamSkipUntil('\"')):
                 msg = self.nb.streamGetStringBefore('\n')[:-2]
                 for sub in self.sub_list:
-                    try:
-                        sub[topic](msg)
-                        break
-                    except:
-                        print("not find topic")
+                    if(sub[0] == topic):
+                        sub[1](msg)
+                        return
+                print("not find topic")
