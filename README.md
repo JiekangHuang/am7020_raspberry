@@ -3,6 +3,15 @@
  
   ![AM7020](images/am7020_front.jpg)
   ![AM7020_PI](images/pi_am7020_side.jpg)
+
+ Installation
+ ------------
+
+ To install am7020:
+
+ ```console
+ $ pip install -i https://test.pypi.org/simple/ am7020
+ ```
  ## 啟用Raspberry Pi UART
  * Step1: Terminal input sudo raspi-config.
  * Step2: Select Interfacing Options.
