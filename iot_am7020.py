@@ -24,7 +24,7 @@ MQTT_PASSWORD = "XXXXXXXXXXXXXXXXXXXX"
 
 # topics
 LUX = "Zack_Huang/feeds/pi3.lux"
-SWITCH = "Zack_Huang/feeds/pi3.switch"
+SWITCH = "Zack_Huang/feeds/pi3.sw"
 
 UPLOAD_INTERVAL = 60
 
