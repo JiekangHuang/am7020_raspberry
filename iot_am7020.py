@@ -7,7 +7,6 @@
 # @Date   : 2020/11/11 下午1:39:34
 
 from time import time, sleep
-from gpiozero import LED
 from sim7020.sim7020_nb import SIM7020NB
 from sim7020.sim7020_mqtt import SIM7020MQTT
 from tsl2561 import TSL2561
@@ -24,24 +23,7 @@ MQTT_PASSWORD = "XXXXXXXXXXXXXXXXXXXX"
 
 # topics
 LUX = "Zack_Huang/feeds/pi3.lux"
-SWITCH = "Zack_Huang/feeds/pi3.sw"
-
 UPLOAD_INTERVAL = 60
-
-LED_PIN = 23
-led = LED(LED_PIN)
-
-
-def setSW(msg):
-    if(msg == "ON"):
-        print("LED ON")
-        led.on()
-    else:
-        print("LED OFF")
-        led.off()
-
-
-sub_topics = [(SWITCH, setSW)]
 
 
 nb = SIM7020NB("/dev/ttyS0", 115200, 18)
@@ -65,12 +47,6 @@ def reConnBroker():
         print("Connecting to", MQTT_BROKER, "...")
         if(mqtt.connBroker(MQTT_BROKER, PORT, username=MQTT_USERNAME, password=MQTT_PASSWORD, mqtt_id="MY_AM7020_TEST_MQTTID")):
             print("success")
-            for sub in sub_topics:
-                print("subscribe: ", sub[0])
-                if(mqtt.subscribe(sub[0], sub[1])):
-                    print("success")
-                else:
-                    print("fail")
         else:
             print("fail")
 
@@ -93,7 +69,7 @@ def main():
     lux = 0
     while(True):
         if(time() > get_lux_timer):
-            get_lux_timer = time() + 10
+            get_lux_timer = time() + 5
             lux = tsl.lux()
         if(time() > chk_net_timer):
             chk_net_timer = time() + 10
